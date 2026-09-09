@@ -11,10 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GetInvolvedRouteImport } from './routes/get-involved'
 import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as OurWorkRouteImport } from './routes/our-work'
 import { Route as UpdatesRouteImport } from './routes/updates'
+import { Route as OutreachSlugRouteImport } from './routes/outreach.$slug'
+import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
+import { Route as UpdatesSlugRouteImport } from './routes/updates.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,6 +28,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GetInvolvedRoute = GetInvolvedRouteImport.update({
@@ -46,55 +55,108 @@ const UpdatesRoute = UpdatesRouteImport.update({
   path: '/updates',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OutreachSlugRoute = OutreachSlugRouteImport.update({
+  id: '/outreach/$slug',
+  path: '/outreach/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/projects/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UpdatesSlugRoute = UpdatesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => UpdatesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/get-involved': typeof GetInvolvedRoute
   '/impact': typeof ImpactRoute
   '/our-work': typeof OurWorkRoute
-  '/updates': typeof UpdatesRoute
+  '/updates': typeof UpdatesRouteWithChildren
+  '/outreach/$slug': typeof OutreachSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
+  '/updates/$slug': typeof UpdatesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/get-involved': typeof GetInvolvedRoute
   '/impact': typeof ImpactRoute
   '/our-work': typeof OurWorkRoute
-  '/updates': typeof UpdatesRoute
+  '/updates': typeof UpdatesRouteWithChildren
+  '/outreach/$slug': typeof OutreachSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
+  '/updates/$slug': typeof UpdatesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/get-involved': typeof GetInvolvedRoute
   '/impact': typeof ImpactRoute
   '/our-work': typeof OurWorkRoute
-  '/updates': typeof UpdatesRoute
+  '/updates': typeof UpdatesRouteWithChildren
+  '/outreach/$slug': typeof OutreachSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
+  '/updates/$slug': typeof UpdatesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/get-involved' | '/impact' | '/our-work' | '/updates'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/get-involved' | '/impact' | '/our-work' | '/updates'
-  id:
-    | '__root__'
     | '/'
     | '/about'
+    | '/auth'
     | '/get-involved'
     | '/impact'
     | '/our-work'
     | '/updates'
+    | '/outreach/$slug'
+    | '/projects/$slug'
+    | '/updates/$slug'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/get-involved'
+    | '/impact'
+    | '/our-work'
+    | '/updates'
+    | '/outreach/$slug'
+    | '/projects/$slug'
+    | '/updates/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/get-involved'
+    | '/impact'
+    | '/our-work'
+    | '/updates'
+    | '/outreach/$slug'
+    | '/projects/$slug'
+    | '/updates/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
   GetInvolvedRoute: typeof GetInvolvedRoute
   ImpactRoute: typeof ImpactRoute
   OurWorkRoute: typeof OurWorkRoute
-  UpdatesRoute: typeof UpdatesRoute
+  UpdatesRoute: typeof UpdatesRouteWithChildren
+  OutreachSlugRoute: typeof OutreachSlugRoute
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -111,6 +173,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/get-involved': {
@@ -141,16 +210,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UpdatesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/outreach/$slug': {
+      id: '/outreach/$slug'
+      path: '/outreach/$slug'
+      fullPath: '/outreach/$slug'
+      preLoaderRoute: typeof OutreachSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/$slug': {
+      id: '/projects/$slug'
+      path: '/projects/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/updates/$slug': {
+      id: '/updates/$slug'
+      path: '/$slug'
+      fullPath: '/updates/$slug'
+      preLoaderRoute: typeof UpdatesSlugRouteImport
+      parentRoute: typeof UpdatesRoute
+    }
   }
 }
+
+interface UpdatesRouteChildren {
+  UpdatesSlugRoute: typeof UpdatesSlugRoute
+}
+
+const UpdatesRouteChildren: UpdatesRouteChildren = {
+  UpdatesSlugRoute: UpdatesSlugRoute,
+}
+
+const UpdatesRouteWithChildren =
+  UpdatesRoute._addFileChildren(UpdatesRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
   GetInvolvedRoute: GetInvolvedRoute,
   ImpactRoute: ImpactRoute,
   OurWorkRoute: OurWorkRoute,
-  UpdatesRoute: UpdatesRoute,
+  UpdatesRoute: UpdatesRouteWithChildren,
+  OutreachSlugRoute: OutreachSlugRoute,
+  ProjectsSlugRoute: ProjectsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
