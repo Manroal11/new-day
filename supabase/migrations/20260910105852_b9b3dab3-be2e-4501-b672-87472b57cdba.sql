@@ -1,0 +1,1 @@
+UPDATE public.impact_stats SET value = CASE sort_order WHEN 1 THEN '3+' WHEN 2 THEN '2' WHEN 3 THEN '1' WHEN 4 THEN '0' ELSE value END WHERE sort_order IN (1, 2, 3, 4);
