@@ -76,7 +76,7 @@ function Home() {
           <div className="lg:col-span-6">
             <div className="relative">
               <img
-                src="/images/hero-community.jpg"
+                src="/images/hero.jpg"
                 alt="Community members learning together in a bright open space"
                 width={1200}
                 height={900}
@@ -218,7 +218,7 @@ function Home() {
       <section className="bg-surface">
         <div className="nd-shell grid items-center gap-12 py-20 lg:grid-cols-2 lg:py-24">
           <img
-            src="/images/story-portrait.jpg"
+            src="/images/story.jpg"
             alt="A New Day participant at work in their community"
             loading="lazy"
             width={1000}

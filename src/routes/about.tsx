@@ -44,7 +44,7 @@ function About() {
 
       <section className="nd-shell pb-16">
         <img
-          src="/images/about-workshop.jpg"
+          src="/images/outreach-youth.jpg"
           alt="A skills workshop in progress with participants working together"
           loading="lazy"
           width={1600}
