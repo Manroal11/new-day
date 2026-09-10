@@ -19,6 +19,17 @@ type Row = Record<string, unknown> & { id: string };
 const inputClass =
   "w-full rounded-2xl bg-surface px-4 py-3 font-body text-sm text-ink ring-1 ring-line focus:ring-2 focus:ring-amber focus:outline-none";
 
+type LooseResult = Promise<{ data: unknown; error: { message: string } | null }>;
+type LooseBuilder = LooseResult & {
+  select: (columns: string) => LooseBuilder;
+  order: (column: string, options?: { ascending?: boolean }) => LooseBuilder;
+  eq: (column: string, value: string) => LooseBuilder;
+  update: (values: Record<string, unknown>) => LooseBuilder;
+  insert: (values: Record<string, unknown>) => LooseBuilder;
+  delete: () => LooseBuilder;
+};
+const db = supabase as unknown as { from: (table: string) => LooseBuilder };
+
 async function uploadImage(file: File) {
   const path = `${Date.now()}-${slugify(file.name.replace(/\.[^.]+$/, ""))}.${file.name.split(".").pop()}`;
   const { error } = await supabase.storage.from("media").upload(path, file, { upsert: false });
@@ -115,7 +126,7 @@ export function Collection({
   const { data: rows = [], isLoading } = useQuery({
     queryKey: ["admin", queryKey],
     queryFn: async () => {
-      let request = supabase.from(table).select("*");
+      let request = db.from(table).select("*");
       if (orderBy) request = request.order(orderBy.column, { ascending: orderBy.ascending ?? true });
       const { data, error } = await request;
       if (error) throw new Error(error.message);
@@ -130,8 +141,8 @@ export function Collection({
       const id = payload["id"] as string | undefined;
       delete payload["id"];
       const { error } = id
-        ? await supabase.from(table).update(payload).eq("id", id)
-        : await supabase.from(table).insert(payload);
+        ? await db.from(table).update(payload).eq("id", id)
+        : await db.from(table).insert(payload);
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {
@@ -144,7 +155,7 @@ export function Collection({
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from(table).delete().eq("id", id);
+      const { error } = await db.from(table).delete().eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {
