@@ -53,8 +53,10 @@ const announcementFields: Field[] = [
 
 const upcomingFields: Field[] = [
   { name: "title", label: "Activity title", type: "text", required: true },
-  { name: "expected_date", label: "Expected date", type: "text", help: 'Free text, e.g. "October 2026".' },
+  { name: "image_url", label: "Photo (optional)", type: "image" },
+  { name: "expected_date", label: "Planned date", type: "text", help: 'Free text, e.g. "October 2026".' },
   { name: "location", label: "Location", type: "text" },
+  { name: "category", label: "Category", type: "select", options: CATEGORIES },
   { name: "status", label: "Status", type: "select", options: STATUSES },
   { name: "description", label: "Description", type: "textarea" },
   { name: "participation", label: "How people can take part", type: "textarea" },

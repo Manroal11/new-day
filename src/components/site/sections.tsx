@@ -7,33 +7,50 @@ export const WORK_AREAS = [
     key: "Education",
     letter: "E",
     tone: "amber",
-    text: "Knowledge and learning that help people make better decisions and open doors.",
+    text: "Learning that opens doors and builds confidence.",
   },
   {
     key: "Skills",
     letter: "S",
     tone: "amber",
-    text: "Practical, vocational skills that lead to employment and entrepreneurship.",
+    text: "Practical training that leads to work.",
   },
   {
     key: "Enterprise",
     letter: "B",
     tone: "amber",
-    text: "Sustainable income-generating projects and businesses for communities.",
+    text: "Small businesses that earn a steady income.",
   },
   {
     key: "Digital",
     letter: "D",
     tone: "leaf",
-    text: "Technology, digital skills and new economic opportunities for everyone.",
+    text: "Technology skills and new opportunities.",
   },
   {
     key: "Community",
     letter: "C",
     tone: "leaf",
-    text: "Initiatives that strengthen food security, livelihoods and resilience.",
+    text: "Stronger, more resilient local livelihoods.",
   },
 ] as const;
+
+export const PATHWAY = ["Educate", "Equip", "Empower", "Sustain"] as const;
+
+export function Pathway() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      {PATHWAY.map((step, index) => (
+        <div key={step} className="flex items-center gap-3">
+          <span className="rounded-full bg-paper px-5 py-2.5 font-sans text-sm font-semibold text-ink ring-1 ring-line">
+            {step}
+          </span>
+          {index < PATHWAY.length - 1 ? <span className="text-amber-deep">→</span> : null}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function WorkAreas() {
   return (
@@ -51,12 +68,15 @@ export function WorkAreas() {
           <p className="mt-2 max-w-[28ch] font-body text-sm text-pretty text-ink-soft">{area.text}</p>
         </div>
       ))}
-      <Link to="/our-work" className="group flex flex-col justify-between rounded-[24px] bg-ink p-6 text-paper">
+      <Link
+        to="/projects-outreach"
+        className="group flex flex-col justify-between rounded-[24px] bg-ink p-6 text-paper"
+      >
         <p className="font-sans text-xs font-semibold tracking-[0.15em] text-paper/60 uppercase">Explore</p>
         <div>
           <p className="font-display text-2xl font-semibold">See it in action</p>
           <p className="mt-3 font-sans text-sm text-paper/70 transition-colors group-hover:text-paper">
-            View all work →
+            Projects & outreach →
           </p>
         </div>
       </Link>
@@ -66,6 +86,15 @@ export function WorkAreas() {
 
 export function ImpactStats() {
   const { data: stats = [] } = useQuery(impactQuery);
+
+  if (stats.length === 0) {
+    return (
+      <p className="mx-auto mt-10 max-w-[52ch] rounded-[24px] bg-surface p-8 text-center font-body text-sm text-ink-soft">
+        We are just beginning. Our impact numbers will be published here as our first projects
+        deliver results.
+      </p>
+    );
+  }
 
   return (
     <>
@@ -80,8 +109,7 @@ export function ImpactStats() {
         ))}
       </div>
       <p className="mx-auto mt-12 max-w-[52ch] text-center font-body text-base text-pretty text-ink-soft">
-        Every number represents a person, a skill gained, an opportunity created, or a community
-        taking another step toward sustainability.
+        We only publish numbers we can stand behind. As New Day grows, these figures grow with us.
       </p>
     </>
   );
@@ -89,7 +117,7 @@ export function ImpactStats() {
 
 export function GetInvolvedGrid() {
   const options = [
-    { title: "Donate", text: "Help support sustainable projects and programs.", cta: "Give today" },
+    { title: "Donate", text: "Help fund training, tools and sustainable projects.", cta: "Give today" },
     { title: "Volunteer", text: "Share your skills, time and experience.", cta: "Join a team" },
     { title: "Partner", text: "Work with New Day to create meaningful impact.", cta: "Start a dialogue" },
     { title: "Support a Project", text: "Fund or resource a specific initiative.", cta: "Browse projects" },
