@@ -55,6 +55,8 @@ export type Upcoming = {
   description: string;
   participation: string;
   status: string;
+  category: string;
+  image_url: string | null;
   sort_order: number;
   published: boolean;
 };
@@ -120,6 +122,50 @@ export function formatDate(value: string | null | undefined) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
   return date.toLocaleDateString("en-GB", { month: "short", year: "numeric", day: "numeric" });
+}
+
+/** A project or an outreach activity, shown in one combined list. */
+export type Activity = {
+  id: string;
+  kind: "Project" | "Outreach";
+  title: string;
+  slug: string;
+  location: string;
+  date: string | null;
+  summary: string;
+  status: string;
+  category: string;
+  image: string | null;
+};
+
+export function toActivities(projects: Project[], outreach: Outreach[]): Activity[] {
+  const fromProjects: Activity[] = projects.map((p) => ({
+    id: p.id,
+    kind: "Project",
+    title: p.title,
+    slug: p.slug,
+    location: p.location,
+    date: p.project_date,
+    summary: p.summary,
+    status: p.status,
+    category: p.category,
+    image: p.image_url,
+  }));
+  const fromOutreach: Activity[] = outreach.map((o) => ({
+    id: o.id,
+    kind: "Outreach",
+    title: o.title,
+    slug: o.slug,
+    location: o.location,
+    date: o.activity_date,
+    summary: o.description,
+    status: "Completed",
+    category: "Community",
+    image: o.photos?.[0] ?? null,
+  }));
+  return [...fromProjects, ...fromOutreach].sort((a, b) =>
+    (b.date ?? "").localeCompare(a.date ?? ""),
+  );
 }
 
 export function slugify(value: string) {
