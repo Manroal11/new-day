@@ -226,10 +226,12 @@ export type Database = {
       }
       upcoming_activities: {
         Row: {
+          category: string
           created_at: string
           description: string
           expected_date: string
           id: string
+          image_url: string | null
           location: string
           participation: string
           published: boolean
@@ -240,10 +242,12 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          category?: string
           created_at?: string
           description?: string
           expected_date?: string
           id?: string
+          image_url?: string | null
           location?: string
           participation?: string
           published?: boolean
@@ -254,10 +258,12 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          category?: string
           created_at?: string
           description?: string
           expected_date?: string
           id?: string
+          image_url?: string | null
           location?: string
           participation?: string
           published?: boolean

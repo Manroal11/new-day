@@ -8,9 +8,11 @@ const LINKS = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/our-work", label: "Our Work" },
-  { to: "/impact", label: "Impact" },
+  { to: "/projects-outreach", label: "Projects & Outreach" },
+  { to: "/upcoming", label: "Upcoming" },
   { to: "/updates", label: "Updates" },
   { to: "/get-involved", label: "Get Involved" },
+  { to: "/contact", label: "Contact" },
 ] as const;
 
 export function Footer() {
