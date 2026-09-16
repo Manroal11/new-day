@@ -201,6 +201,7 @@ export function UpcomingCard({ item }: { item: Upcoming }) {
           {item.participation}
         </p>
       ) : null}
+      </div>
     </div>
   );
 }
