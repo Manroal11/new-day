@@ -102,14 +102,14 @@ function Home() {
                 Why New Day
               </p>
               <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-balance text-ink lg:text-4xl">
-                We build opportunity with people, not for them.
+                We build opportunity with people, as a team.
               </h2>
             </div>
             <div className="lg:col-span-7">
               <p className="font-body text-lg text-pretty text-ink-soft">
                 New Day is a social-impact organisation at the start of its journey. We work
-                alongside people who have been left without options, and stay long enough for the
-                work to stand on its own.
+                alongside people who have been left with limited options, and stay long enough 
+                for the work to stand on its own.
               </p>
               <div className="mt-8">
                 <Pathway />
